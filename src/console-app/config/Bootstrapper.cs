@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using business.behaviours;
 using business.commandhandlers;
 using business.commands;
 using business.exceptionactions;
@@ -34,6 +35,7 @@ namespace console_app.config
             services.AddTransient<ServiceFactory>(provider => provider.GetRequiredService);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestExceptionProcessorBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestExceptionActionProcessorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(GenericExceptionLoggerBehaviour<,>));
 
             services.AddTransient<IRequestHandler<DoSmthgCommandAsync, Unit>, DoSmthgCommandHandlerAsync>();
             services.AddTransient<IRequestHandler<GetSmthgQueryAsync, string>, GetSmthgQueryHandlerAsync>();
