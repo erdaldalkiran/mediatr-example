@@ -25,14 +25,14 @@ namespace console_app.hosted_services
             {
                 using var scope = serviceProvider.CreateScope();
                 var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-                //await mediator.Send(new DoSmthgCommandAsync(), stoppingToken);
+                await mediator.Send(new DoSmthgCommandAsync(), stoppingToken);
 
 
-                //var res = await mediator.Send(new GetSmthgQueryAsync(), stoppingToken);
-                //Console.WriteLine(res);
+                var res = await mediator.Send(new GetSmthgQueryAsync(), stoppingToken);
+                Console.WriteLine(res);
 
 
-                //await mediator.Publish(new SmthgHappenedNotification(), stoppingToken);
+                await mediator.Publish(new SmthgHappenedNotification(), stoppingToken);
 
 
                 await mediator.Send(new DoExceptionalThingsCommandAsync(), stoppingToken);

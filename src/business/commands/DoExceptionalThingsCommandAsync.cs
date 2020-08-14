@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using business.behaviours;
+using MediatR;
 
 namespace business.commands
 {
-    public class DoExceptionalThingsCommandAsync : IRequest
+    public class DoExceptionalThingsCommandAsync : IRequest, IRetriable
     {
     }
 }

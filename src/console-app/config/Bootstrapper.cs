@@ -29,13 +29,13 @@ namespace console_app.config
 
         public void ConfigureServices(HostBuilderContext hbc, IServiceCollection services)
         {
-            //services.AddMediatR(Assembly.GetExecutingAssembly());
-
             services.AddScoped<IMediator, Mediator>();
             services.AddTransient<ServiceFactory>(provider => provider.GetRequiredService);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestExceptionProcessorBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestExceptionActionProcessorBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(GenericExceptionLoggerBehaviour<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RetryBehaviour<,>));
+
 
             services.AddTransient<IRequestHandler<DoSmthgCommandAsync, Unit>, DoSmthgCommandHandlerAsync>();
             services.AddTransient<IRequestHandler<GetSmthgQueryAsync, string>, GetSmthgQueryHandlerAsync>();
@@ -44,6 +44,7 @@ namespace console_app.config
             services.AddTransient<IRequestHandler<DoExceptionalThingsCommandAsync, Unit>, DoExceptionalThingsCommandHandlerAsync>();
             services.AddTransient<IRequestExceptionHandler<DoExceptionalThingsCommandAsync, Unit, ArgumentException>, DoExceptionalThingsCommandExceptionHandler>();
             services.AddTransient<IRequestExceptionAction<DoExceptionalThingsCommandAsync, ArgumentException>, DoExceptionalThingsCommandExceptionAction>();
+            services.AddTransient<IRetrier<DoExceptionalThingsCommandAsync>, DoExceptionalThingsRetrier>();
 
             services.AddHostedService<Looper>();
         }
